@@ -1,0 +1,34 @@
+<div [formGroup]="form">
+
+  <div [ngSwitch]="question.questionCode">
+    <ion-item *ngSwitchCase="'TE-TEXT'">
+        <ion-label stacked>{{question.question}}</ion-label>
+        <ion-input type="text" [formControlName]="question.questionId"  type="text"></ion-input>
+      </ion-item>
+      <ion-item *ngSwitchCase="'TE-NUMERIC'">
+          <ion-label stacked>{{question.question}}</ion-label>
+          <ion-input type="number" [formControlName]="question.questionId"></ion-input>
+        </ion-item>
+      <ion-item *ngSwitchCase="'MULTIPLECHOICE'">
+        <ion-label stacked>{{question.question}}</ion-label>
+        <ion-select [formControlName]="question.questionId" [multiple]="item.possibleoptions.allowMultipleSelect">
+          <ion-option *ngFor="let opt of item.possibleoptions.options" [value]="opt.value">{{opt.value}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item *ngSwitchCase="'TE-DATE'">
+          <ion-label stacked>{{question.question}}</ion-label>
+          <ion-datetime [formControlName]="question.questionId" displayFormat="MM/YYYY" pickerFormat="MMMM YYYY"></ion-datetime>
+        </ion-item>
+        <ion-item *ngSwitchCase="'OBSERVEDINDICATOR'">
+            <ion-label>{{question.question}}</ion-label>
+            <ion-checkbox [formControlName]="question.questionId"></ion-checkbox>
+          </ion-item>
+  </div> 
+
+  <!-- <div class="errorMessage" *ngIf="!isValid">{{question.questionId}} is required</div> -->
+  <div class="padding" *ngIf="!isValid && isTouched">
+      <div *ngIf="errors.required">This field is required.</div>
+      <div *ngIf="errors.minlength">This field should contain minimum {{item.possibleoptions.minLength}} charecters </div>
+      <div *ngIf="errors.maxlength">This field should contain maximum {{item.possibleoptions.maxLength}} charecters </div>
+    </div>
+</div>
